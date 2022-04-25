@@ -117,7 +117,7 @@ resource "tencentcloud_instance" "demo-ec2-instance-with-key" {
 
   # put a tag to label the resource
   tags = {
-    Name       = "${var.prefix}-demo-ec2-instance-with-key"
+    Name       = "${var.prefix}-demo-instance-with-key"
     TTL        = 168
     Owner      = "william.yang@hashicorp.com"
     Purpose    = "demo for terraform features"
