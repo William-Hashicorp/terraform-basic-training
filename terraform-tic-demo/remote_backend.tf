@@ -3,7 +3,7 @@
     hostname = "app.terraform.io"
     organization = "William-Hashicorp"
     workspaces {
-      name = "terraform-basic-training"
+      name = "terraform-tic-demo"
             }
   }
 } 
