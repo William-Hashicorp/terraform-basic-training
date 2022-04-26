@@ -34,7 +34,7 @@ variable "subnet_prefix" {
 }
 
 variable "instance_type" {
-  description = "Specifies the AWS instance type."
+  description = "Specifies the tencent instance type."
   default     = "S5.MEDIUM4"
 }
 

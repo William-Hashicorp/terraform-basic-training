@@ -63,12 +63,13 @@ data "tencentcloud_instance_types" "default" {
   }
 }
 
-// Create VPC resource
+# Create VPC resource
 resource "tencentcloud_vpc" "app" {
   cidr_block = "10.0.0.0/16"
   name       = "${var.prefix}_app_vpc"
 }
 
+# subnet
 resource "tencentcloud_subnet" "app" {
   vpc_id            = tencentcloud_vpc.app.id
   availability_zone = data.tencentcloud_availability_zones_by_product.default.zones.0.name

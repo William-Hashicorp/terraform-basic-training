@@ -7,13 +7,21 @@
 
 variable "prefix" {
   description = "This prefix will be included in the name of most resources."
-  default     = "william-terraform-oss-local-state"
+  default     = "william_tf"
 }
 
+# for tencent cloud ap-guangzhou region
 variable "region" {
   description = "The region where the resources are created in"
-  default     = "us-east-1"
+  default     = "ap-singapore"
 }
+
+# for tencent cloud ap-guangzhou region
+variable "availability_zone" {
+  description = "The az where the resources are created in"
+  default     = "ap-singapore-1"
+}
+
 
 variable "address_space" {
   description = "The address space that is used by the virtual network. You can supply more than one address space. Changing this forces a new resource to be created."
@@ -27,7 +35,7 @@ variable "subnet_prefix" {
 
 variable "instance_type" {
   description = "Specifies the AWS instance type."
-  default     = "t2.micro"
+  default     = "S5.MEDIUM4"
 }
 
 variable "admin_username" {
