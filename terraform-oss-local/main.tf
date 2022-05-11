@@ -59,7 +59,7 @@ data "tencentcloud_instance_types" "default" {
 
   filter {
     name   = "instance-family"
-    values = ["S5"]
+    values = ["S1"]
   }
 }
 
@@ -96,7 +96,9 @@ resource "tencentcloud_instance" "demo-ec2-instance-with-key" {
   # project_id        = 0
   vpc_id    = tencentcloud_vpc.app.id
   subnet_id = tencentcloud_subnet.app.id
-  count     = 2
+  # count     = 2
+  count     = 1
+  
 
   data_disks {
     data_disk_type = "CLOUD_PREMIUM"

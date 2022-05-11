@@ -35,7 +35,7 @@ variable "subnet_prefix" {
 
 variable "instance_type" {
   description = "Specifies the tencent instance type."
-  default     = "S5.MEDIUM4"
+  default     = "S1.MEDIUM4"
 }
 
 variable "admin_username" {
