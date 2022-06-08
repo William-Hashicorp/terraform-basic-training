@@ -1,16 +1,3 @@
-# terraform {
-#   required_providers {
-#     alicloud = {
-#       source  = "aliyun/alicloud"
-#       version = "=1.151.0"
-#     }
-#   }
-# }
-
-# provider "alicloud" {
-#   region = var.region
-# }
-
 terraform {
   required_providers {
     tencentcloud = {
@@ -25,10 +12,6 @@ provider "tencentcloud" {
 }
 
 
-# data "alicloud_zones" "az" {
-#   network_type = "Vpc"
-# }
-
 # Get availability zones
 data "tencentcloud_availability_zones_by_product" "default" {
   product = "cvm"
@@ -38,10 +21,6 @@ data "tencentcloud_availability_zones_by_product" "default" {
 data "tencentcloud_availability_regions" "default" {
 }
 
-# resource "alicloud_vpc" "hashicat" {
-#   cidr_block = var.address_space
-#   vpc_name   = "${var.prefix}-vpc"
-# }
 
 // Create VPC resource
 resource "tencentcloud_vpc" "hashicat" {
@@ -50,12 +29,6 @@ resource "tencentcloud_vpc" "hashicat" {
 }
 
 
-# resource "alicloud_vswitch" "hashicat" {
-#   vswitch_name = "${var.prefix}--vswitch"
-#   zone_id      = data.alicloud_zones.az.zones.0.id
-#   cidr_block   = var.subnet_prefix
-#   vpc_id       = alicloud_vpc.hashicat.id
-# }
 # subnet resource , equal vswitch
 resource "tencentcloud_subnet" "hashicat" {
   vpc_id            = tencentcloud_vpc.hashicat.id
@@ -64,11 +37,6 @@ resource "tencentcloud_subnet" "hashicat" {
   cidr_block        =  var.subnet_prefix
 }
 
-
-# resource "alicloud_security_group" "hashicat" {
-#   name   = "${var.prefix}-security-group"
-#   vpc_id = alicloud_vpc.hashicat.id
-# }
 
 resource "tencentcloud_security_group" "hashicat" {
   name   = "${var.prefix}-security-group"
@@ -79,13 +47,6 @@ resource "tencentcloud_security_group" "hashicat" {
 }
 
 
-# resource "alicloud_security_group_rule" "allow_ssh" {
-#   type              = "ingress"
-#   port_range        = "22/22"
-#   ip_protocol       = "tcp"
-#   cidr_ip           = "0.0.0.0/0"
-#   security_group_id = alicloud_security_group.hashicat.id
-# }
 
 resource "tencentcloud_security_group_rule" "allow_ssh" {
   type              = "ingress"
@@ -98,13 +59,6 @@ resource "tencentcloud_security_group_rule" "allow_ssh" {
 }
 
 
-# resource "alicloud_security_group_rule" "allow_http" {
-#   type              = "ingress"
-#   port_range        = "80/80"
-#   ip_protocol       = "tcp"
-#   cidr_ip           = "0.0.0.0/0"
-#   security_group_id = alicloud_security_group.hashicat.id
-# }
 
 resource "tencentcloud_security_group_rule" "allow_http" {
   type              = "ingress"
@@ -116,13 +70,6 @@ resource "tencentcloud_security_group_rule" "allow_http" {
   cidr_ip           = "0.0.0.0/0"
 }
 
-# resource "alicloud_security_group_rule" "allow_https" {
-#   type              = "ingress"
-#   port_range        = "443/443"
-#   ip_protocol       = "tcp"
-#   cidr_ip           = "0.0.0.0/0"
-#   security_group_id = alicloud_security_group.hashicat.id
-# }
 
 resource "tencentcloud_security_group_rule" "allow_https" {
   type              = "ingress"
@@ -134,13 +81,6 @@ resource "tencentcloud_security_group_rule" "allow_https" {
   cidr_ip           = "0.0.0.0/0"
 }
 
-# resource "alicloud_security_group_rule" "allow_all_outbound" {
-#   type              = "egress"
-#   port_range        = "-1/-1"
-#   ip_protocol       = "all"
-#   cidr_ip           = "0.0.0.0/0"
-#   security_group_id = alicloud_security_group.hashicat.id
-# }
 
 resource "tencentcloud_security_group_rule" "allow_all_outbound" {
   type              = "egress"
@@ -153,11 +93,6 @@ resource "tencentcloud_security_group_rule" "allow_all_outbound" {
 }
 
 
-# data "alicloud_images" "ubuntu" {
-#   name_regex  = "^ubuntu_20.*x64"
-#   owners      = "system"
-#   most_recent = true
-# }
 
 data "tencentcloud_images" "ubuntu" {
   image_type = ["PUBLIC_IMAGE"]
@@ -166,14 +101,6 @@ data "tencentcloud_images" "ubuntu" {
 }
 
 
-
-# resource "alicloud_eip_address" "hashicat" {
-#   bandwidth            = 1
-#   address_name         = "${var.cataddressname}"
-#   isp                  = "BGP"
-#   internet_charge_type = "PayByBandwidth"
-#   payment_type         = "PayAsYouGo"
-# }
 
 resource "tencentcloud_eip" "hashicat" {
   name         = "${var.cataddressname}"
@@ -188,38 +115,13 @@ resource "tencentcloud_eip_association" "hashicat" {
   eip_id = tencentcloud_eip.hashicat.id
   }
 
-# data "template_file" "user_data" {
-#   template = file("files/deploy_app.sh")
-# }
-
-# resource "alicloud_instance" "hashicat" {
-#   instance_name   = "${var.prefix}-hashicat"
-#   image_id        = data.alicloud_images.ubuntu.images.0.image_id
-#   instance_type   = var.instance_type
-  
-#   #vswitch_id      = alicloud_vswitch.hashicat.id
-#   subnet_id      = tencentcloud_subnet.hashicat.id
-
-#   security_groups = [alicloud_security_group.hashicat.id]
-
-#   key_name = alicloud_ecs_key_pair.hashicat.key_name
-
-#   # This could be used instead of the provisioner
-#   # user_data = "${data.template_file.user_data.template}"
-
-#   tags = {
-#     Department = "devops"
-#     Billable   = "true"
-#   }
-# }
-
+# provision ecs instance
 resource "tencentcloud_instance" "hashicat" {
   instance_name   = "${var.prefix}-hashicat"
   image_id        = data.tencentcloud_images.ubuntu.images.0.image_id
   instance_type   = var.instance_type
   availability_zone = data.tencentcloud_availability_zones_by_product.default.zones.0.name
 
-  #vswitch_id      = alicloud_vswitch.hashicat.id
   subnet_id      = tencentcloud_subnet.hashicat.id
   security_groups = [tencentcloud_security_group.hashicat.id]
   vpc_id = tencentcloud_vpc.hashicat.id
@@ -238,8 +140,6 @@ resource "tencentcloud_instance" "hashicat" {
 
   key_name = tencentcloud_key_pair.hashicat.id
 
-  # This could be used instead of the provisioner
-  # user_data = "${data.template_file.user_data.template}"
 
   tags = {
     Department = "devops"
