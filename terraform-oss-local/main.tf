@@ -96,8 +96,8 @@ resource "tencentcloud_instance" "demo-ec2-instance-with-key" {
   # project_id        = 0
   vpc_id    = tencentcloud_vpc.app.id
   subnet_id = tencentcloud_subnet.app.id
-  # count     = 2
-  count     = 1
+   count     = 2
+  #count     = 1
   
 
   data_disks {

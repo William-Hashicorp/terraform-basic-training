@@ -19,13 +19,13 @@ provider "aws" {
 
 
 # combine with list
-# variable "user_names" {
-#   type = list
-#   default = ["dev-admin", "stage-admin","prod-admin"]
-# }
+variable "user_names" {
+  type = list
+  default = ["dev-admin", "stage-admin","prod-admin"]
+}
 
-# resource "aws_iam_user" "adminuser" {
-#   name = var.user_names[count.index]
-#   count = 3
-#   path = "/system/"
-# }
+resource "aws_iam_user" "adminuser" {
+  name = var.user_names[count.index]
+  count = 3
+  path = "/system/"
+}

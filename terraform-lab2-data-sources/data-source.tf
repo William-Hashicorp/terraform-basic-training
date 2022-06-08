@@ -7,7 +7,7 @@ data "aws_ami" "app_ami" {
   owners = ["amazon"]
   # owners = ["self"]
 
-
+# use the filter to query the specific image
   filter {
     name   = "name"
     values = ["amzn2-ami-hvm*"]

@@ -15,18 +15,18 @@ resource "tencentcloud_eip" "williamy-lb" {
   name      = "williamy_gateway_ip"
 }
 
-output "eip-publicip" {
-  value = tencentcloud_eip.williamy-lb.public_ip
-}
-
-output "eip-dns" {
-  value = tencentcloud_eip.williamy-lb.name
-}
-
-
 # output "eip-publicip" {
-#   value = tencentcloud_eip.williamy-lb
+#   value = tencentcloud_eip.williamy-lb.public_ip
 # }
+
+# output "eip-dns" {
+#   value = tencentcloud_eip.williamy-lb.name
+# }
+
+
+output "eip-publicip" {
+  value = tencentcloud_eip.williamy-lb
+}
 
 
 
